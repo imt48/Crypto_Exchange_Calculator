@@ -1,19 +1,18 @@
 
 from os import name
 import tkinter as tk
-from tkinter.constants import CENTER, HORIZONTAL, VERTICAL
+from tkinter.constants import CENTER, END, HORIZONTAL, VERTICAL
 import tkinter.ttk as ttk
 import tkinter.font as tkfont
 from typing import Text
 import pyperclip
 
 master = tk.Tk()
-master.title("Crypto Calculator v2.0")
+master.title("Crypto Calculator v2.1")
 master.geometry("384x592")
 master.resizable(0,0)
 master.attributes("-topmost",1,"-alpha",1)
 master["bg"] = "#001E1F"
-
 
 L_frame = tk.Frame(master,bg="#001E1F",bd=2,relief='groove',height=160,width=200)
 L_frame.place(x=168,y=216)
@@ -37,7 +36,8 @@ class Entry2(tk.Entry):
         self.set("0")
         super().__init__(tkwin,textvariable=self.txt)
         self["validate"]="key"
-        self["validatecommand"]=(limitCMD,"%P")
+        self["validatecommand"]=(limitCMD,"%P","%S")
+        self["exportselection"]=0
         self.bind("<KeyRelease>",fnc_allget)
         self.bind("<FocusIn>",lambda event:self.select_range(0,tk.END))
         self.place(x=X,y=Y,width=W,height=H)
@@ -49,6 +49,9 @@ class Combobox2(ttk.Combobox):
         self.set("0")
         super().__init__(tkwin,values=feelist,textvariable=self.txt)
         self.current(0)
+        self["validate"]="key"
+        self["validatecommand"]=(limitCMD,"%P","%S")
+        self["exportselection"]=0
         self.bind("<<ComboboxSelected>>",fnc_allget)
         self.bind("<KeyRelease>",fnc_allget)
         self.place(x=X,y=Y,width=W,height=H)
@@ -73,8 +76,12 @@ islong = True
 
 # Functions
 def fnc_allget(self=None):
-    fnc_price()
-    fnc_tax()
+    if entry_price.get() and entry_loss.get() and entry_profit.get() \
+    and combobox_open.get() and combobox_close.get() and entry_leverage.get():
+        fnc_price()
+        fnc_tax()
+    else:
+        pass
 
 def fnc_price():
     opn = float(entry_price.get())
@@ -147,15 +154,6 @@ def fnc_longshort():
     fnc_allget()
 
 # Secondary Functions
-def fnc_zero_set(event=None):
-    if  entry_price.get():
-        pass
-    else:
-        entry_price.set(0)
-        entry_price.select_to(1)
-    fnc_price()
-    fnc_tax()
-
 def fnc_wheel(event,name,n,isfloat):
     if isfloat:
         if event.delta >0 :
@@ -167,23 +165,26 @@ def fnc_wheel(event,name,n,isfloat):
             name.set(round(int(name.get())+n,2))
         else :
             name.set(round(int(name.get())-n,2))
-    fnc_zero_set()
+    if name == entry_leverage:
+        entry_leverage["validate"] = "key"
+    name.icursor(END)
+    fnc_allget()
 
-def fnc_limit(content):
-    result=False
-    valist=["0","1","2","3","4","5","6","7","8","9","."]
-    pointvali=list(content)
-    if len (content) > 1:    
-        del pointvali[-1]
-    for j in pointvali:
-        if j==".":
-            valist=["0","1","2","3","4","5","6","7","8","9"]
-            break           
-    for i in valist:
-        if  content=="" or content[-1]==i :
-            result=True            
-            break
-    return result
+def fnc_limit(after,now):
+    ok = False
+    allow = ['0','1','2','3','4','5','6','7','8','9','.']
+    nowlist = list(now)
+    afterlist = list(after)
+    for i in nowlist:
+        if i in allow:
+            if afterlist.count(".") >1:
+                ok = False
+                return ok
+            else:
+                    ok = True
+        else:
+            return ok   
+    return ok
 limitCMD = master.register(fnc_limit)    
 
 ## Create Widget ##
@@ -196,37 +197,34 @@ combobox_open = Combobox2(master,16,400,104,40)
 combobox_close = Combobox2(master,16,480,104,40)
 
 label_loss = Label2(master,16,96,"Loss:")
-label_loss_lvrged = Label2(master,64,96,"0.0%")
+label_loss_lvrged = Label2(master,64,96,"Lv.%")
 label_profit = Label2(master,16,176,"Profit:")
-label_profit_lvrged = Label2(master,60,176,"0.0%")
+label_profit_lvrged = Label2(master,64,176,"Lv.%")
 label_lvrg = Label2(master,16,272,"Leverage")
 label_decimal = Label2(master,200,176,0)
 label_open = Label2(master,16,368,"OpenFee")
 label_close = Label2(master,16,448,"CloseFee")
-label_even_percent = Label2(master,80,448,None)
-label_pretax_stop = Label2(L_frame,8,96,"Pretax Stop\n0.0%") 
+label_even_percent = Label2(master,80,448,"Even%")
+label_pretax_stop = Label2(L_frame,12,96,"Pretax Stop\n0.0%") 
 label_pretax_take = Label2(L_frame,104,96,"Pretax Take\n0.0%")
 
-button_stop = Button2(master,192,104,152,56,"firebrick","Stop Loss",None)
-button_take = Button2(master,192,392,152,56,"mediumseagreen","Take Profit",None)
+button_stop = Button2(master,192,104,152,56,"firebrick","Stop Loss",        lambda :pyperclip.copy(button_stop.get()))
+button_take = Button2(master,192,392,152,56,"mediumseagreen","Take Profit", lambda :pyperclip.copy(button_take.get()))
+button_even = Button2(L_frame,32,24,136,48,"black","Even",                  lambda :pyperclip.copy(button_even.get()))
 button_mode = Button2(master,16,536,104,40,"steelblue","LONG",fnc_longshort)
-button_even = Button2(L_frame,32,24,136,48,"black","Even",None)
 
-scale_leverage = Scale2(master,132,174,entry_leverage.txt,125,1,None)
-scale_decimal = Scale2(master,224,176,label_decimal.txt,0,8,None) 
-
+scale_leverage = Scale2(master,132,174,entry_leverage.txt,125,1,lambda event:fnc_allget())
+scale_decimal = Scale2(master,224,176,label_decimal.txt,0,8,lambda event:fnc_allget()) #scale_decimal.set(2)
 
 ## adjust widget ##
 entry_price.config(justify="center",font=("Bahnschrift",28))
+entry_leverage["validate"] = "key"
 
 label_loss_lvrged.config(fg="lightpink")
 label_profit_lvrged.config(fg="lightgreen")
 label_pretax_stop.config(fg="lightpink")
 label_pretax_take.config(fg="lightgreen")
 
-button_stop.config(command=lambda :pyperclip.copy(button_stop.get()))
-button_even.config(command=lambda :pyperclip.copy(button_even.get()))
-button_take.config(command=lambda :pyperclip.copy(button_take.get()))
 button_mode.config(activeforeground='white',activebackground='steelblue',font=('Bahnschrift Bold',18))
 
 scale_leverage.config(length=260)
@@ -237,10 +235,6 @@ entry_loss.bind("<MouseWheel>",lambda event:fnc_wheel(event,entry_loss,0.05,True
 entry_profit.bind("<MouseWheel>",lambda event:fnc_wheel(event,entry_profit,0.05,True))
 entry_leverage.bind("<MouseWheel>",lambda event:fnc_wheel(event,entry_leverage,5,False))
 
-scale_leverage["command"]=fnc_allget
-scale_decimal["command"]=fnc_allget
-
-entry_price.focus()
 master.mainloop()
 
 ####計算機算式####
