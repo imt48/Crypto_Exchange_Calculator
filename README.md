@@ -10,5 +10,5 @@ You can use mouse wheel scroll the numbers of profit(+.05)/loss(+.05)/leverage(+
 ![image](https://raw.githubusercontent.com/imt48/Crypto_Exchange_Calculator/main/Directions.jpg)
 
 # Feture Plans
-add Stop/Take reverse calculate.<br>
-add Fixed value of profit/loss.<br>
+* add Stop/Take reverse calculate.<br>
+* add Fixed value of profit/loss.<br>
