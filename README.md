@@ -1,4 +1,4 @@
-# Crypto_Exchange_Calculator
+# Crypto Exchange Calculator 加密貨幣計算機 虚拟货币计算器
  Hi! this is my first program, to help myself trade on centralized exchange<br>
  自從比特幣跳水把我很大一部分資金套在了山頂，只能學習編程來打發無聊的時間了呵呵。
 
