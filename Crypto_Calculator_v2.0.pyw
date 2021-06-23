@@ -1,10 +1,9 @@
 
 from os import name
 import tkinter as tk
-from tkinter.constants import CENTER, END, HORIZONTAL, VERTICAL
+from tkinter.constants import CENTER, END, HORIZONTAL
 import tkinter.ttk as ttk
 import tkinter.font as tkfont
-from typing import Text
 import pyperclip
 
 master = tk.Tk()
@@ -13,6 +12,9 @@ master.geometry("384x592")
 master.resizable(0,0)
 master.attributes("-topmost",1,"-alpha",1)
 master["bg"] = "#001E1F"
+
+canvas_dummy = tk.Canvas(master,bg="#001E1F")
+canvas_dummy.place(x=192,y=296,anchor=CENTER,width=388,height=596)
 
 L_frame = tk.Frame(master,bg="#001E1F",bd=2,relief='groove',height=160,width=200)
 L_frame.place(x=168,y=216)
@@ -260,6 +262,8 @@ scale_leverage.config(length=260)
 scale_decimal.config(orient=HORIZONTAL)
 
 ## binding ##
+canvas_dummy.bind("<Button-1>",lambda event:master.focus_set())
+
 entry_loss.bind("<MouseWheel>",lambda event:fnc_wheel(event,entry_loss,0.05,True))
 entry_profit.bind("<MouseWheel>",lambda event:fnc_wheel(event,entry_profit,0.05,True))
 entry_leverage.bind("<MouseWheel>",lambda event:fnc_round5(event,entry_leverage,5,False))
