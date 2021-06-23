@@ -9,18 +9,22 @@
 ![image](https://raw.githubusercontent.com/imt48/Crypto_Exchange_Calculator/main/Directions.jpg)
 
 # Feture Plans
-* add Right Click menu. (it hasn't now...)
+* add: Right Click menu. (it hasn't now...)
 * 添加 右鍵菜單(目前沒有...)
 <br>
 
-* add Stop/Take reverse calculate.
+* add: Stop/Take reverse calculate.
 * 添加 輸入目標價格 反向計算比率
 <br>
 
-* add Fixed value of profit/loss.
+* add: Fixed value of profit/loss.
 * 添加 定額損利 設定
 <br>
 
-* Optimize precise round off. (I suggest don't use this tool on those ShitCoins with many many zeros now)
+* optimize: Precise round off. (I suggest don't use this tool on those ShitCoins with many many zeros now)
 * 調整計算模式至超高精度 (鑒於很多山寨幣價值極小，盡量不要拿來算幣價裡很多零的幣種)
 * Shit/USDT: 0.00000000000000000000000000000012345
+<br>
+
+* add: Exchange insurance clearance fee calculation INSERT option.
+* 增加  插入交易所爆倉處理費 選項
