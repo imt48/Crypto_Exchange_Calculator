@@ -3,7 +3,7 @@
  自從比特幣跳水把我很大一部分資金套在了山頂，只能學習編程來打發無聊的時間了呵呵。
 
 # Download
- last upload 2021-06-23 : [`EXE`](https://mega.nz/file/roRmjDhR#qcBwT_zwSoKVIC-8dcE-4hMKjbH-ea0Yhe4Q9XKWt_o) VERSION 2.5
+ last upload 2021-06-23 : [`Click Here Download EXE`](https://mega.nz/file/roRmjDhR#qcBwT_zwSoKVIC-8dcE-4hMKjbH-ea0Yhe4Q9XKWt_o) VERSION 2.5
 
 # Directions
 ![image](https://raw.githubusercontent.com/imt48/Crypto_Exchange_Calculator/main/Directions.jpg)
