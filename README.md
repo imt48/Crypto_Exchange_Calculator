@@ -5,10 +5,10 @@
  last upload 2021-06-23 : [`EXE`](https://mega.nz/file/roRmjDhR#qcBwT_zwSoKVIC-8dcE-4hMKjbH-ea0Yhe4Q9XKWt_o) VERSION 2.5
 
 # Directions
-You can use mouse wheel scroll the numbers of profit(+.05)/loss(+.05)/leverage(+1) 
-
 ![image](https://raw.githubusercontent.com/imt48/Crypto_Exchange_Calculator/main/Directions.jpg)
 
 # Feture Plans
-* add Stop/Take reverse calculate.<br>
-* add Fixed value of profit/loss.<br>
+* add Right Click menu. (yes,it hasn't now...)
+* add Stop/Take reverse calculate.
+* add Fixed value of profit/loss.
+* add Precise round off.
