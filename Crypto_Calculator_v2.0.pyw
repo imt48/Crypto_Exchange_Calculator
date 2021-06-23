@@ -8,7 +8,7 @@ from typing import Text
 import pyperclip
 
 master = tk.Tk()
-master.title("Crypto Calculator v2.1")
+master.title("Crypto Calculator v2.5")
 master.geometry("384x592")
 master.resizable(0,0)
 master.attributes("-topmost",1,"-alpha",1)
@@ -72,16 +72,19 @@ class Scale2(tk.Scale):
 
 # Variable
 feelist = [0,0.018,0.02,0.036,0.04,0.075,0.1]
+entryList = []
 islong = True
 
 # Functions
 def fnc_allget(self=None):
-    if entry_price.get() and entry_loss.get() and entry_profit.get() \
-    and combobox_open.get() and combobox_close.get() and entry_leverage.get():
+    fnc_status()
+    try:
         fnc_price()
         fnc_tax()
-    else:
-        pass
+    except:
+        button_stop.set("ERROR")
+        button_even.set("ERROR")
+        button_take.set("ERROR")
 
 def fnc_price():
     opn = float(entry_price.get())
@@ -94,25 +97,25 @@ def fnc_price():
     if islong == True:
         #Long mode     
         if clstx < 1:
-            tak = round(opn*(1+prft+opntx)/(1-clstx),dcml)
-            stp = round(opn*(1-lss+opntx)/(1-clstx),dcml)
-            evn = round(opn*(1+(opntx+clstx)/(1-clstx)),dcml)
+            stp = str(f"{opn*(1-lss+opntx)/(1-clstx):.{dcml}f}")
+            tak = str(f"{opn*(1+prft+opntx)/(1-clstx):.{dcml}f}")
+            evn = str(f"{opn*(1+(opntx+clstx)/(1-clstx)):.{dcml}f}")
             evn_prcnt = str(round((opntx+clstx)/(1-clstx)*100*lvrg,3))+"%"
         else:
             tak=stp=evn=evn_prcnt= "Call Police"
     else:
         #Short mode
         if opntx < 1:
-            tak = round(opn*(1-prft-opntx)/(1+clstx),dcml)
-            stp = round(opn*(1+lss-opntx)/(1+clstx),dcml)
-            evn = round(opn*(1-(opntx+clstx)/(1+clstx)),dcml)
+            stp = str(f"{opn*(1+lss-opntx)/(1+clstx):.{dcml}f}")
+            tak = str(f"{opn*(1-prft-opntx)/(1+clstx):.{dcml}f}")
+            evn = str(f"{opn*(1-(opntx+clstx)/(1+clstx)):.{dcml}f}")
             evn_prcnt = str(round((opntx+clstx)/(1+clstx)*100*lvrg,3))+"%"
         else:
             tak=stp=evn=evn_prcnt= "Call Police"
     button_take.set(tak)
     button_stop.set(stp)
     button_even.set(evn)
-    label_even_percent.set(evn_prcnt)
+    label_even_percent.set(evn_prcnt) 
 
 def fnc_tax():
     x = int(entry_leverage.get())   
@@ -139,6 +142,7 @@ def fnc_tax():
     label_pretax_take.set(prtxprft)
     label_pretax_stop.set(prtxlss)
 
+# Secondary Functions
 def fnc_longshort():
     global islong
     if islong == True:
@@ -153,31 +157,54 @@ def fnc_longshort():
         islong = True
     fnc_allget()
 
-# Secondary Functions
-def fnc_wheel(event,name,n,isfloat):
-    if isfloat:
+def fnc_status(self=None):
+    global entryList
+    entryList = [entry_price.get(),entry_loss.get(),entry_profit.get() \
+        ,combobox_open.get(),combobox_close.get(),entry_leverage.get()]
+
+def fnc_round5(event,name,n,isfloat):
+    x = int(name.get())%5
+    if x !=0:
         if event.delta >0 :
-            name.set(round(float(name.get())+n,2))
-        else :
-            name.set(round(float(name.get())-n,2))
+            y = 5-int(name.get())%5
+            name.set(str(int(name.get())+y))
+        else:
+            name.set(str(int(name.get())-x))
+        name["validate"] = "key"
     else:
-        if event.delta >0 :
-            name.set(round(int(name.get())+n,2))
-        else :
-            name.set(round(int(name.get())-n,2))
-    if name == entry_leverage:
-        entry_leverage["validate"] = "key"
-    name.icursor(END)
-    fnc_allget()
+        fnc_wheel(event,name,n,isfloat)
+
+def fnc_wheel(event,name,n,isfloat):
+    try:
+        if isfloat:
+            if event.delta >0 :
+                name.set(round(float(name.get())+n,2))
+            else :
+                name.set(round(float(name.get())-n,2))
+        else:
+            if event.delta >0 :
+                name.set(round(int(name.get())+n,2))
+            else :
+                name.set(round(int(name.get())-n,2))
+        if name == entry_leverage:
+            entry_leverage["validate"] = "key"
+        name.icursor(END)
+        fnc_allget()
+    except:
+        name.set("0")
+    name.config(validate="key")
 
 def fnc_limit(after,now):
     ok = False
-    allow = ['0','1','2','3','4','5','6','7','8','9','.']
+    allow = ['-','0','1','2','3','4','5','6','7','8','9','.']
     nowlist = list(now)
     afterlist = list(after)
     for i in nowlist:
         if i in allow:
-            if afterlist.count(".") >1:
+            if afterlist.count(".") >1 or afterlist.count("-") >1 :
+                ok = False
+                return ok
+            elif afterlist.count("-") ==1 and afterlist.index("-") !=0:
                 ok = False
                 return ok
             else:
@@ -207,6 +234,7 @@ label_close = Label2(master,16,448,"CloseFee")
 label_even_percent = Label2(master,80,448,"Even%")
 label_pretax_stop = Label2(L_frame,12,96,"Pretax Stop\n0.0%") 
 label_pretax_take = Label2(L_frame,104,96,"Pretax Take\n0.0%")
+label_warring = Label2(master,220,560,"Imprecise Round Off")
 
 button_stop = Button2(master,192,104,152,56,"firebrick","Stop Loss",        lambda :pyperclip.copy(button_stop.get()))
 button_take = Button2(master,192,392,152,56,"mediumseagreen","Take Profit", lambda :pyperclip.copy(button_take.get()))
@@ -214,7 +242,7 @@ button_even = Button2(L_frame,32,24,136,48,"black","Even",                  lamb
 button_mode = Button2(master,16,536,104,40,"steelblue","LONG",fnc_longshort)
 
 scale_leverage = Scale2(master,132,174,entry_leverage.txt,125,1,lambda event:fnc_allget())
-scale_decimal = Scale2(master,224,176,label_decimal.txt,0,8,lambda event:fnc_allget()) #scale_decimal.set(2)
+scale_decimal = Scale2(master,224,176,label_decimal.txt,0,11,lambda event:fnc_allget())
 
 ## adjust widget ##
 entry_price.config(justify="center",font=("Bahnschrift",28))
@@ -222,6 +250,7 @@ entry_leverage["validate"] = "key"
 
 label_loss_lvrged.config(fg="lightpink")
 label_profit_lvrged.config(fg="lightgreen")
+label_decimal.set(2)
 label_pretax_stop.config(fg="lightpink")
 label_pretax_take.config(fg="lightgreen")
 
@@ -233,7 +262,7 @@ scale_decimal.config(orient=HORIZONTAL)
 ## binding ##
 entry_loss.bind("<MouseWheel>",lambda event:fnc_wheel(event,entry_loss,0.05,True))
 entry_profit.bind("<MouseWheel>",lambda event:fnc_wheel(event,entry_profit,0.05,True))
-entry_leverage.bind("<MouseWheel>",lambda event:fnc_wheel(event,entry_leverage,5,False))
+entry_leverage.bind("<MouseWheel>",lambda event:fnc_round5(event,entry_leverage,5,False))
 
 master.mainloop()
 
@@ -260,6 +289,6 @@ master.mainloop()
 # even_var = open*(1-((openfee+closefee)/(1+closefee))) √
 
 # Even% (Long)
-# even_percent_label_var = X *(openfee+closefee)/(1-closefee)
+# even_percent_label_var = X *(openfee+closefee)/(1-closefee) √
 # Even% (Short)
-# even_percent_label_var = X *(openfee+closefee)/(1+closefee)
+# even_percent_label_var = X *(openfee+closefee)/(1+closefee) √
