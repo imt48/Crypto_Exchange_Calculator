@@ -1,6 +1,6 @@
 # Crypto Exchange Calculator 加密貨幣計算機 虚拟货币计算器
  Hi! this is my first program, to help myself trade on centralized exchange<br>
- 自從比特幣跳水把我很大一部分資金套在了山頂，只能學習編程來打發無聊的時間了呵呵。
+ 第一次寫程式，自從比特幣跳水把我很大一部分資金套在了山頂，只能學習編程來打發無聊的時間了呵呵。
 
 # Download
  last upload 2021-06-23 : [`Click Here Download EXE`](https://mega.nz/file/roRmjDhR#qcBwT_zwSoKVIC-8dcE-4hMKjbH-ea0Yhe4Q9XKWt_o) VERSION 2.5
@@ -14,11 +14,15 @@
 <br>
 
 * add: Stop/Take reverse calculate.
-* 添加 輸入目標價格 反向計算比率
+* 添加 由目標價格 反向計算比率
 <br>
 
-* add: Fixed value of profit/loss.
-* 添加 定額損利 設定
+* add: Receive levered P/L ratio.
+* 添加 直接輸入槓桿後利潤
+<br>
+
+* add: Recive fixed value of P/L.
+* 添加 輸入定額盈虧
 <br>
 
 * optimize: Precise round off. (I suggest don't use this tool on those ShitCoins with many many zeros now)
