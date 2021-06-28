@@ -35,5 +35,5 @@
 
 
 # Notes
-version 1.0 just for memory...
+version 1.0 just for memory...<br>
 v1版是從零開始入門版一行一行學習成果，非常非常冗餘，僅留作紀念，請勿使用。...
