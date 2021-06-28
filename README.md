@@ -1,6 +1,6 @@
 # Crypto Exchange Calculator 加密貨幣計算機 虚拟货币计算器
  Hi! this is my first program, to help myself trade on centralized exchange<br>
- 第一次寫程式，自從比特幣跳水把我很大一部分資金套在了山頂，只能學習編程來打發無聊的時間了呵呵。
+ 第一次寫程式，特幣跳水，學習編程來打發無聊的時間呵呵。
 
 # Download
  last upload 2021-06-23 : [`Click Here Download EXE`](https://mega.nz/file/roRmjDhR#qcBwT_zwSoKVIC-8dcE-4hMKjbH-ea0Yhe4Q9XKWt_o) VERSION 2.5
@@ -32,3 +32,8 @@
 
 * add: Exchange insurance clearance fee calculation INSERT option.
 * 增加  插入交易所爆倉處理費 選項
+
+
+# Notes
+version 1.0 just for memory...
+v1版是從零開始入門版一行一行學習成果，非常非常冗餘，僅留作紀念，請勿使用。...
