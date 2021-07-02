@@ -8,7 +8,7 @@
 # Directions
 ![image](https://raw.githubusercontent.com/imt48/Crypto_Exchange_Calculator/main/Directions.jpg)
 
-# Feture Plans
+# Future Plans
 * add: Right Click menu. (it hasn't now...)
 * 添加 右鍵菜單(目前沒有...)
 <br>
