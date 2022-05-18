@@ -1,6 +1,6 @@
 # Crypto Exchange Calculator 加密貨幣計算機 虚拟货币计算器
  Hi! this is my first program, to help myself trade on centralized exchange<br>
- 第一次寫程式，特幣跳水，學習編程來打發無聊的時間呵呵。
+ 第一次寫程式...
 
 # Download
  last upload 2021-06-23 : [`Click Here Download EXE`](https://mega.nz/file/roRmjDhR#qcBwT_zwSoKVIC-8dcE-4hMKjbH-ea0Yhe4Q9XKWt_o) VERSION 2.5
